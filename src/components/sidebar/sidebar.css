@@ -1,0 +1,58 @@
+.menu-icon-active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    width: 49px;
+    height: 49px;
+    background: #344054;
+    border-radius: 10px;
+    color: #FDFDFD;
+    }
+.menu-active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 5px;
+    width: max-content;
+    padding: 15px;
+    height: 49px;
+    background: #344054;
+    border-radius: 10px;
+    color: #FDFDFD;
+}
+.menu-inactive{
+    margin-top: 5px;
+    text-align: center;
+    width: 49px;
+    height: 49px;
+    color: #FDFDFD;
+    gap: 20px;
+}
+.menu-close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 49px;
+    color: #FDFDFD;
+}
+
+.menu-info{
+    padding: 15px;
+}
+.menu-info-title{
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
+.menu-info-subtitle{
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #F2F4F7;
+}
