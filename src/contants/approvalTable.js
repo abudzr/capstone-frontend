@@ -1,6 +1,6 @@
-import { Grid,Link,MenuItem,Select, TextField } from "@mui/material";
+import { Grid,Link} from "@mui/material";
 
-export const columnsTableRequest = [
+export const columnsTableApproval = [
     {
       field: "no",
       headerName: "No",
@@ -14,6 +14,13 @@ export const columnsTableRequest = [
       headerClassName: "super-app-theme--header",
       editable: false,
       width: 200,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      headerClassName: "super-app-theme--header",
+      editable: false,
+      width: 100,
     },
     {
       field: "shortText",
@@ -59,7 +66,7 @@ export const columnsTableRequest = [
                     <Link
                         underline="hover"
                         className="detail-request"
-                        href={`/request/${params.id}}`}
+                        href={`/approval/${params.id}}`}
                     >
                         Detail
                     </Link>
@@ -72,11 +79,7 @@ export const columnsTableRequest = [
 ];
 
 // item table
-const inputProps = {
-  step: 300,
-};
-
-export const itemsRequest = () => ([
+export const itemsApproval = () => ([
   {
     field: "no",
     headerName: "No",
@@ -90,21 +93,6 @@ export const itemsRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     width: 200,
-    renderCell: (params) => {
-        return (
-          <Select
-            variant="outlined"
-            sx={{
-            width: "100%",
-            height: 40,
-            }}
-            onChange={(e) => {}}
-        >
-            <MenuItem value="laptop">Laptop</MenuItem>
-            <MenuItem value="printer">Printer</MenuItem>
-        </Select>
-        )
-    }
   },
   {
     field: "qty",
@@ -112,17 +100,6 @@ export const itemsRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-          type="number"
-        />
-      )
-    }
   },
   {
     field: "price",
@@ -130,17 +107,6 @@ export const itemsRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-          type="number"
-        />
-      )
-    }
   },
   {
     field: "description",
@@ -149,21 +115,11 @@ export const itemsRequest = () => ([
     editable: false,
     flex: 1,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-        />
-      )
-    }
   },
 ]);
 
 // service tabel
-export const serviceRequest = () => ([
+export const serviceApproval = () => ([
   {
     field: "no",
     headerName: "No",
@@ -177,20 +133,6 @@ export const serviceRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     width: 200,
-    renderCell: (params) => {
-        return (
-          <Select
-            variant="outlined"
-            sx={{
-            width: "100%",
-            height: 40,
-            }}
-            onChange={(e) => {}}
-        >
-            <MenuItem value="jasa">Jasa</MenuItem>
-        </Select>
-        )
-    }
   },
   {
     field: "qty",
@@ -198,17 +140,6 @@ export const serviceRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-          type="number"
-        />
-      )
-    }
   },
   {
     field: "price",
@@ -216,17 +147,6 @@ export const serviceRequest = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-          type="number"
-        />
-      )
-    }
   },
   {
     field: "description",
@@ -235,15 +155,5 @@ export const serviceRequest = () => ([
     editable: false,
     flex: 1,
     minWidth: 60,
-    renderCell: (params) => {
-      return (
-        <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
-        />
-      )
-    }
   },
 ]);

@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 /** Components */
 import { Sidebar } from 'components';
 /** Pages */
-import {Login, NotFound,Dashboard, Request, CreateRequest} from './pages'
+import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval} from './pages'
 
 /** Assets */
 import './App.css';
@@ -21,7 +21,7 @@ export default function App() {
 
   // useEffect  
   return (
-    <div className="App">
+    <div>
       {isLoggedIn ?
         <>
           <Sidebar/>
@@ -32,6 +32,10 @@ export default function App() {
             <Route path='/request' element={<Request />} />
             <Route path='/request/create' element={<CreateRequest />} />
             <Route path='/request/:id' element={<Request />} />
+
+            {/* approval path */}
+            <Route path='/approval' element={<Approval />} />
+            <Route path='/approval/:id' element={<DetailApproval />} />
 
             <Route path='/not-found' element={<NotFound />} />
             <Route path='*' element={<Navigate to='/not-found' replace />} />

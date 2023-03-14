@@ -10,5 +10,11 @@ export { default as Dashboard } from './home';
 export { default as Request } from './request/listRequest';
 export { default as CreateRequest } from './request/createRequest';
 
+// approval
+export { default as Approval } from './approval/listApproval';
+export { default as DetailApproval } from './approval/detailApproval';
+
+
+
 
 

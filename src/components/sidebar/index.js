@@ -118,7 +118,7 @@ function Sidebar() {
       },
     {
         key: 'Approval',
-        path: '/Approval',
+        path: '/approval',
         icon: <CheckCircleIcon />,
         title: 'Approval',
         type: 'route'
