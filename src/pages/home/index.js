@@ -1,9 +1,12 @@
 /** Libs */
-// import axios from 'axios';
-// import Cookies from 'js-cookie';
-// import { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { NavLink } from 'react-router-dom';
+import * as React from 'react';
+import {Breadcrumbs,Link, Grid} from '@mui/material'
+import HomeIcon from '@mui/icons-material/Home';
+import { useSelector } from 'react-redux';
+// function handleClick(event) {
+//   event.preventDefault();
+//   console.info('You clicked a breadcrumb.');
+// }
 /** Global Components */
 
 /** Local Components */
@@ -13,13 +16,39 @@
 /** Utils */
 
 export default function Home() {
-  
-  // Use Effect
-
-  return (
-    <div>
-      dashboard
-    </div>
-  )
+    const {show} = useSelector((state) => state.general);
+    // Use Effect
+    return (
+    <Grid
+        sx={{ flexGrow: 1 }}  
+        container  
+        direction="row"
+        alignItems="center"
+        spacing={3} 
+        style={{marginTop:"20px"}}
+    >
+        <Grid item xs={show ? 2 : 1}></Grid>
+        <Grid item xs={show ? 10 :11}>
+            <Breadcrumbs separator="›" aria-label="breadcrumb">
+                <Link
+                    underline="hover"
+                    sx={{ display: 'flex', alignItems: 'center' }}
+                    color="inherit"
+                    href="/"
+                >
+                <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+                </Link>
+                <Link
+                    underline="hover"
+                    sx={{ display: 'flex', alignItems: 'center' }}
+                    color="inherit"
+                    href="/material-ui/getting-started/installation/"
+                >
+                    Dashboard
+                </Link>
+            </Breadcrumbs>
+        </Grid>
+    </Grid>
+)
 
 }

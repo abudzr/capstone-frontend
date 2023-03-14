@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 /** Components */
 import { Sidebar } from 'components';
 /** Pages */
-import {Login, NotFound,Dashboard} from './pages'
+import {Login, NotFound,Dashboard, Request, CreateRequest} from './pages'
 
 /** Assets */
 import './App.css';
@@ -27,6 +27,12 @@ export default function App() {
           <Sidebar/>
           <Routes>
             <Route path='/' element={<Dashboard />} />
+
+            {/* request path */}
+            <Route path='/request' element={<Request />} />
+            <Route path='/request/create' element={<CreateRequest />} />
+            <Route path='/request/:id' element={<Request />} />
+
             <Route path='/not-found' element={<NotFound />} />
             <Route path='*' element={<Navigate to='/not-found' replace />} />
           </Routes>

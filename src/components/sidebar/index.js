@@ -1,6 +1,7 @@
 import {useState} from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch} from 'react-redux';
 
 import { styled } from "@mui/material/styles";
 import {
@@ -25,7 +26,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LogoutIcon from '@mui/icons-material/Logout';
 // configs
 // import { clearAll } from "../../utils/storage";
-
+import { openDrawer } from 'store/reducer-general';
 import './sidebar.css'
 
 const drawerWidth = 250;
@@ -81,8 +82,14 @@ const CustomDrawer = styled(Drawer, {
 
 function Sidebar() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   
+  const handleDrawerOpen = () => {
+    setOpen(!open);
+    dispatch(openDrawer(!open));
+  }
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -136,7 +143,7 @@ function Sidebar() {
     <Box sx={{ flexGrow: 1 }}>
       <CustomDrawer variant="permanent" open={open}>
         <DrawerHeader open={open}>
-          <IconButton onClick={()=>setOpen(!open)} >
+          <IconButton onClick={()=>handleDrawerOpen()} >
             {open ? (
               <ChevronLeftIcon style={{fill: "#FDFDFD"}} />
             ) : (
