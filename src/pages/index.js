@@ -14,6 +14,10 @@ export { default as CreateRequest } from './request/createRequest';
 export { default as Approval } from './approval/listApproval';
 export { default as DetailApproval } from './approval/detailApproval';
 
+// management-user
+export { default as ListUser } from './managementUser/listUser';
+
+
 
 
 

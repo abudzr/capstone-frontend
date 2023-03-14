@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 /** Components */
 import { Sidebar } from 'components';
 /** Pages */
-import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval} from './pages'
+import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval, ListUser} from './pages'
 
 /** Assets */
 import './App.css';
@@ -36,6 +36,10 @@ export default function App() {
             {/* approval path */}
             <Route path='/approval' element={<Approval />} />
             <Route path='/approval/:id' element={<DetailApproval />} />
+
+            {/* Management User */}
+            <Route path='/management-users' element={<ListUser />} />
+
 
             <Route path='/not-found' element={<NotFound />} />
             <Route path='*' element={<Navigate to='/not-found' replace />} />
