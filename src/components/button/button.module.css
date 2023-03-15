@@ -94,6 +94,26 @@
     color: #027A48;
 }
 
+.button-login{
+    background: #56C171;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height: 60px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+
 /* color */
 .blue{
     background: #2F80ED;

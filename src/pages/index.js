@@ -1,5 +1,5 @@
 // auth
-export { default as Login } from './login';
+export { default as Login } from './auth/login';
 
 // notfound
 export { default as NotFound } from './not-found';
