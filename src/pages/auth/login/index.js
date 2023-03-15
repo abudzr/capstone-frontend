@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
+import { useAuth } from "hooks/auth";
+import { serviceLogin } from "services/auth";
 
 // component
 import { Button } from "../../../components"
@@ -13,14 +18,37 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../auth.css'
 
+
 export default function Login() {
   const [isShow,setShow] = useState(false);
   const { register,getValues, formState: { errors, touchedFields } } = useForm({ mode: 'onBlur' });
 
-  const handleLogin = () =>{
+  const { isLoggedInSet} = useAuth();
+  const navigate = useNavigate();
+  // Func
+  const handleLogin = async () => {
     const values = getValues()
-    console.log(values,"values");
+
+    // const response = await axios({
+    //   url: `${process.env.REACT_APP_URL_API}api/v1/auth/login`,
+    //   method: "POST",
+    //   data:{
+    //     username: values?.username,
+    //     password: values?.password,
+    //   }
+    // });
+    const response = await serviceLogin({
+      username: values?.username,
+      password: values?.password,
+    });
+    console.log(response);
+    if (response?.success) {
+      Cookies.set("token", response?.data)
+      isLoggedInSet(true);
+      navigate('/');
+    }
   }
+
   return (
       <Grid
         sx={{ flexGrow: 1 }}  
@@ -35,7 +63,7 @@ export default function Login() {
         </Grid>
         <Grid item xs={4} className="auth-login-side-right">
             <div className="mb-3" style={{width:"100%"}}>
-              <input {...register("email", { required: { value: true, message: 'Email Required!' }, minLength: {value:3,message:'email kurang dari 3 karakter'} })} type="email" id="email" placeholder="email" />
+              <input {...register("username", { required: { value: true, message: 'username Required!' } })} type="email" id="email" placeholder="email" />
               <div className="error">
                 {touchedFields?.email && errors?.email && errors?.email?.message}
               </div>
