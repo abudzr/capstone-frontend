@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 
 import reducerAuth from './reducer-auth';
 import reducerGeneral from './reducer-general';
+import reducerRequest from './reducer-request';
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +13,8 @@ const persistConfig = {
 
 const reducers = combineReducers({
   auth: reducerAuth,
-  general: reducerGeneral
+  general: reducerGeneral,
+  request: reducerRequest,
 })
 
 const customizedMiddleware = getDefaultMiddleware({
