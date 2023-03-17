@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { useAuth } from "hooks/auth";
-import { serviceLogin } from "services/auth";
+// import { useAuth } from "hooks/auth";
+import { serviceInfoUser, serviceLogin } from "services/auth";
 
 // component
 import { Button } from "../../../components"
@@ -17,35 +17,42 @@ import vectorLogin from "../../../assets/image/login-side-left.svg"
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../auth.css'
+import { setIslogin } from "store/reducer-auth";
+import { useDispatch } from "react-redux";
+import { setListMenu } from "store/reducer-general";
 
 
 export default function Login() {
+  const dispatch = useDispatch();
   const [isShow,setShow] = useState(false);
   const { register,getValues, formState: { errors, touchedFields } } = useForm({ mode: 'onBlur' });
 
-  const { isLoggedInSet} = useAuth();
-  const navigate = useNavigate();
+  // const {isLoggedIn, isLoggedInSet} = useAuth();
+  let navigate = useNavigate();
   // Func
   const handleLogin = async () => {
     const values = getValues()
-
-    // const response = await axios({
-    //   url: `${process.env.REACT_APP_URL_API}api/v1/auth/login`,
-    //   method: "POST",
-    //   data:{
-    //     username: values?.username,
-    //     password: values?.password,
-    //   }
-    // });
     const response = await serviceLogin({
       username: values?.username,
       password: values?.password,
     });
-    console.log(response);
-    if (response?.success) {
-      Cookies.set("token", response?.data)
-      isLoggedInSet(true);
-      navigate('/');
+    if (response.httpStatus === "OK") {
+      let token = response?.data
+      if (token) {
+
+        const infoUser = await serviceInfoUser({
+          token: token,
+          username: values?.username
+        });
+        if (infoUser?.data) {
+          dispatch(setListMenu(infoUser?.data))
+          Cookies.set("token", token)
+          dispatch(setIslogin(true))
+          navigate('/');
+        }
+      }
+    }else{
+      console.log("username tidak terdaftar");
     }
   }
 

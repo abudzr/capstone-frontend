@@ -14,3 +14,23 @@ export const serviceLogin = async ({ username, password }) => {
         },
     });
 };
+
+export const serviceInfoUser = async (props) => {
+    let params = {};
+
+    if (props?.username) {
+        params.username =  props?.username;
+    }
+
+    if (props?.email) {
+    params.email = props?.email
+    }
+    const url = 'v1/api/users';
+
+    return callAPI({
+        url,
+        method: 'GET',
+        token: props?.token,
+        params,
+    });
+};

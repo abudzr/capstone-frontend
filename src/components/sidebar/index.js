@@ -1,7 +1,7 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 
 import { styled } from "@mui/material/styles";
 import {
@@ -14,6 +14,8 @@ import {
   Grid
 } from "@mui/material";
 
+import {CustomizeDialog} from 'components'
+
 // icon
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,12 +24,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LockIcon from '@mui/icons-material/Lock';
+// import LockIcon from '@mui/icons-material/Lock';
 import LogoutIcon from '@mui/icons-material/Logout';
-// configs
-// import { clearAll } from "../../utils/storage";
-import { openDrawer } from 'store/reducer-general';
 import './sidebar.css'
+
+// configs
+import { openDrawer } from 'store/reducer-general';
+import { clearAll } from "utils/storage";
+import { setIslogin } from "store/reducer-auth";
 
 const drawerWidth = 250;
 const openedMixin = (theme) => ({
@@ -83,16 +87,23 @@ const CustomDrawer = styled(Drawer, {
 function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {listMenu} = useSelector((state) => state.general);
+
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [isConfirmed, setConfirmed] = useState(false);
+
+  const [menu, setMenu] = useState([]);
+
   
   const handleDrawerOpen = () => {
     setOpen(!open);
     dispatch(openDrawer(!open));
   }
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
   
 
   const handleMenu = (thePath) => {
@@ -107,37 +118,71 @@ function Sidebar() {
       path: '/',
       icon: <OtherHousesIcon />,
       title: 'Dashboard',
-      type: 'route'
+      type: 'route',
+      slug: 'dashboard.index'
     },
     {
         key: 'Request',
         path: '/request',
         icon: <CalendarTodayIcon />,
         title: 'Request',
-        type: 'route'
+        type: 'route',
+        slug: 'request.index'
       },
     {
         key: 'Approval',
         path: '/approval',
         icon: <CheckCircleIcon />,
         title: 'Approval',
-        type: 'route'
+        type: 'route',
+        slug: 'approval.index'
       },
       {
         key: 'ManagementUsers',
         path: '/management-users',
         icon: <PeopleIcon />,
         title: 'Management User',
-        type: 'route'
+        type: 'route',
+        slug: 'managementuser.index'
       },
-      {
-        key: 'changePassword',
-        path: '/change-password',
-        icon: <LockIcon />,
-        title: 'Ubah Kata Sandi',
-        type: 'route'
-      },
+      // {
+      //   key: 'changePassword',
+      //   path: '/change-password',
+      //   icon: <LockIcon />,
+      //   title: 'Ubah Kata Sandi',
+      //   type: 'route'
+      // },
   ];
+
+ useEffect(() => {
+    const mainRoute = menuItems
+    const dataMenuRole = listMenu.length > 0 ? listMenu: []
+    const filter = mainRoute.filter((elem) => dataMenuRole.find(({ slug }) => elem.slug === slug));
+    setMenu(filter)// eslint-disable-next-line
+  }, [])
+
+
+  useEffect(() => {
+    if (isConfirmed) {
+      const clearAllCookies = new Promise((resolve, reject) => {
+        resolve(clearAll());
+      });
+      clearAllCookies
+        .then(() => {
+          dispatch(setIslogin(false))
+          localStorage.clear()
+          navigate("/login");
+        })
+        .catch((er) => {
+          console.log(er);
+        });
+    }
+    // eslint-disable-next-line
+  },[isConfirmed])
+
+  const handleLogout = () =>{
+    setOpenModal(true)
+  }
   
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -155,13 +200,13 @@ function Sidebar() {
 
         <Box style={{ height:"100vh",display:"flex", flexDirection:"column", justifyContent:"space-between"}}>
             <div>
-            {menuItems.map((rute, id) =>
+            {menu.map((rute, id) =>
                 rute.type === "route" ? (
                 <Tooltip title={rute.title} key={"tooltip-menu-" + id}>
                     <MenuItem
                     onClick={(e) => {
                         e.preventDefault();
-                        handleDrawerClose()
+                        // handleDrawerClose()
                         handleMenu(rute.path);
                     }}
                     >
@@ -215,16 +260,23 @@ function Sidebar() {
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                    <LogoutIcon style={{fill: "#FDFDFD"}}/>
+                    <LogoutIcon style={{fill: "#FDFDFD",cursor:"pointer"}} onClick={()=>handleLogout()}/>
                 </Grid>
             </Grid>
             :
-            <LogoutIcon style={{fill: "#FDFDFD",marginTop:"20px"}}/>
+            <AccountCircleIcon style={{fill: "#FDFDFD",cursor:"pointer",marginTop:"20px"}}/>
             }
            
         </div>
         </Box>
       </CustomDrawer>
+      <CustomizeDialog 
+        title="Confirmation" 
+        text="Are you sure want to logout?" 
+        isModal={openModal} 
+        onClose={setOpenModal}
+        onConfirm={setConfirmed}
+      />
     </Box>
     );
 }
