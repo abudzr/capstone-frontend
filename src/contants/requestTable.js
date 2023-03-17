@@ -9,19 +9,40 @@ export const columnsTableRequest = [
       width: 40,
     },
     {
-      field: "department",
-      headerName: "Department",
+      field: "notrans",
+      headerName: "No Transaksi",
       headerClassName: "super-app-theme--header",
       editable: false,
       width: 200,
     },
     {
-      field: "shortText",
+      field: "type",
+      headerName: "Type",
+      headerClassName: "super-app-theme--header",
+      editable: false,
+      width: 100,
+      renderCell: (params) => {
+        return params.row.type.type
+      }
+    },
+    {
+      field: "department",
+      headerName: "department",
+      headerClassName: "super-app-theme--header",
+      editable: false,
+      width: 180,
+      renderCell: (params) => {
+        return params.row.department.code
+      }
+    },
+    {
+      field: "desc",
       headerName: "Short Text",
       headerClassName: "super-app-theme--header",
       editable: false,
       flex:1,
       minWidth: 60,
+      
     },
     {
       field: "date",
@@ -38,7 +59,7 @@ export const columnsTableRequest = [
       flex:1,
       minWidth: 120,
       renderCell: (params) => {
-        const result = params.row.result
+        const result = params.row.approvalDpt
         if (result) {
             return (
                 <Grid
@@ -49,10 +70,35 @@ export const columnsTableRequest = [
                 >
                     <Grid item xs={6} >
                         <div className={
-                            result === "Approved" ? "info-approved" : 
-                            result === "Rejected" ? "info-rejected" :"info-pending"} 
+                            result?.status === "APPROVED" ? "info-approved" : 
+                            result?.status === "REJECTED" ? "info-rejected" :"info-pending"} 
                         >
-                        {result}
+                        {result?.status}
+                        </div>
+                        </Grid>
+                    <Grid item xs={6} >
+                    <Link
+                        underline="hover"
+                        className="detail-request"
+                        href={`/request/${params.id}}`}
+                    >
+                        Detail
+                    </Link>
+                    </Grid>
+                </Grid>
+            )
+            }else{
+              return (
+                <Grid
+                    container  
+                    direction="row"
+                    spacing={2} 
+                    alignItems="center"
+                >
+                    <Grid item xs={6} >
+                        <div className={"info-pending"} 
+                        >
+                        PENDING
                         </div>
                         </Grid>
                     <Grid item xs={6} >

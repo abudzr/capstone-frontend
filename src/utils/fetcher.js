@@ -17,11 +17,20 @@ async function callAPI({
   let headers = {
     'Access-Control-Allow-Origin': '*',
   };
+  
   if (token) {
-    headers = {
-    ...headers,
-    Authorization: `Bearer ${token}`,
-    };
+    const tokenCookies = Cookies.get('token');
+    if (tokenCookies) {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${tokenCookies}`,
+      };
+    } else {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
   }
 
   try {
