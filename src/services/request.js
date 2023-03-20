@@ -17,3 +17,15 @@ export const serviceListRequest = async (props) => {
         token :true
     });
 };
+
+export const addRequest = async (data) => {
+    
+    const url = `v1/api/${CURRENT_API}`;
+
+    return callAPI({
+        url,
+        method: 'POST',
+        data,
+        token :true
+    });
+};
