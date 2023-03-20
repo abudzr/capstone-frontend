@@ -10,6 +10,16 @@ export const serviceUsers = async (props) => {
     });
 };
 
+export const serviceGetUser = async (props) => {
+    const url = `/v1/api/users/${props.id}`;
+
+    return callAPI({
+        url,
+        method: 'GET',
+        token: props?.token,
+    });
+};
+
 export const serviceRoles = async (props) => {
     const url = `/v1/api/users/roles`;
 
@@ -20,9 +30,9 @@ export const serviceRoles = async (props) => {
     });
 };
 
+
 export const serviceAddRole = async (props) => {
     const url = `/v1/api/users/roles`;
-    console.log(props);
     return callAPI({
         url,
         method: 'POST',
@@ -33,6 +43,16 @@ export const serviceAddRole = async (props) => {
         }
     });
 };
+
+export const serviceDeleteRole = (props) => {
+    const url = `/v1/api/users/roles?roleuuid=${props.roleuuid}&useruuid=${props.useruuid}`;
+    
+    return callAPI({
+        url,
+        method: 'DELETE',
+        token: props?.token,
+    });
+}
 
 export const serviceDepartments = async (props) => {
     const url = `/v1/api/users/departments`;
@@ -46,7 +66,6 @@ export const serviceDepartments = async (props) => {
 
 export const serviceAddDepartment = async (props) => {
     const url = `/v1/api/users/departments`;
-    console.log(props);
     return callAPI({
         url,
         method: 'POST',
@@ -57,6 +76,17 @@ export const serviceAddDepartment = async (props) => {
         }
     });
 };
+
+export const serviceDeleteDepartment = (props) => {
+    console.log(props);
+    const url = `/v1/api/users/departments?departmentuuid=${props.departmentuuid}&useruuid=${props.useruuid}`;
+    
+    return callAPI({
+        url,
+        method: 'DELETE',
+        token: props?.token,
+    });
+}
 
 export const serviceAddUser = async (props) => {
     const url = `/v1/api/users`;

@@ -1,4 +1,5 @@
-import { Grid,Link} from "@mui/material";
+import { Grid} from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const columnsTableUser = [
     {
@@ -58,28 +59,28 @@ export const columnsTableUser = [
         if (status) {
             return (
                 <Grid
-                    container  
-                    direction="row"
-                    spacing={2} 
-                    alignItems="center"
+                  container  
+                  direction="row"
+                  spacing={2} 
+                  alignItems="center"
                 >
-                    <Grid item xs={6} >
-                        <div className={
-                            status === "Active" ? "info-approved" : 
-                            status === "Inactive" ? "info-rejected" :"info-pending"} 
-                        >
-                        {status}
-                        </div>
-                        </Grid>
-                    <Grid item xs={6} >
-                    <Link
-                        underline="hover"
-                        className="detail-user"
-                        href={`management-users/detail/${params.id}}`}
+                  <Grid item xs={6} >
+                    <div className={
+                        status === "Active" ? "info-approved" : 
+                        status === "Inactive" ? "info-rejected" :"info-pending"} 
                     >
-                        Detail
+                    {status}
+                    </div>
+                  </Grid>
+                  <Grid item xs={6} >
+                    <Link
+                      underline="hover"
+                      className="detail-user"
+                      to={`detail/${params.id}`}
+                    >
+                      Update
                     </Link>
-                    </Grid>
+                  </Grid>
                 </Grid>
             )
             }
