@@ -1,0 +1,83 @@
+.auth-login-side-left{
+    height: 100vh;
+    padding-left: 45px;
+    padding-top: 160px;
+    background: linear-gradient(180deg, #56C16E 0%, #186D9A 100%);
+    /* background: #1B222C; */
+    position: relative;
+}
+
+.auth-login-side-left-title{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px !important;
+    line-height: 57px;
+    color: #FFFFFF;
+}
+
+.auth-login-side-left-subtitle{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px !important;
+    line-height: 29px;
+    color: #FFFFFF;
+}
+
+.background-login-img{
+    width: 80%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.vector-login-img{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.auth-login-side-right{
+    padding: 20px;
+    align-self: center;
+}
+
+.auth-login-side-right input{
+    background: #F2F2F2;
+    border-radius: 8px;
+    height: 42px;
+    width: 100%;
+    border: none;
+    padding-left: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #828282;
+}
+.auth-login-side-right input:focus { 
+    outline: none;
+}
+
+.auth-login-side-right .error{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #B42318;
+    margin-top: 5px;
+}
+
+.auth-login-side-right .password {
+    position: relative;
+}
+
+.auth-login-side-right .password .icon{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    color: #828282;
+}

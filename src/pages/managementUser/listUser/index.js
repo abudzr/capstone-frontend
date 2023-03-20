@@ -64,6 +64,7 @@ export default function ListUser() {
         alignItems="center"
         spacing={3} 
         style={{marginTop:"20px"}}
+        gap={show && 4}
     >
         <Grid item xs={show ? 2 : 1}></Grid>
         <Grid item xs={show ? 9 :10}>

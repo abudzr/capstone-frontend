@@ -1,4 +1,7 @@
 /** Libs */
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 /** Components */
@@ -8,18 +11,23 @@ import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApprov
 
 /** Assets */
 import './App.css';
-import { useAuth } from 'hooks/auth';
+
 
 export default function App() {
-  // State  
+  const {isLogin} = useSelector((state) => state.auth);
 
-  // hooks
-  const { isLoggedIn } = useAuth();
-  // Func
-  
-  // Handler        
+  const [isLoggedIn,setIsLoggedIn] = useState(false)
 
-  // useEffect  
+  const isAuthentication = Cookies.get("token");
+
+  useEffect(() => {
+    if (isAuthentication) {
+      setIsLoggedIn(true)
+    }else{
+      setIsLoggedIn(false)
+    }
+  }, [isAuthentication,isLogin])
+
   return (
     <div>
       {isLoggedIn ?

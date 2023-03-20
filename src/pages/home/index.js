@@ -26,9 +26,10 @@ export default function Home() {
         alignItems="center"
         spacing={3} 
         style={{marginTop:"20px"}}
+        gap={show && 4}
     >
         <Grid item xs={show ? 2 : 1}></Grid>
-        <Grid item xs={show ? 10 :11}>
+        <Grid item xs={show ? 9 :10}>
             <Breadcrumbs separator="›" aria-label="breadcrumb">
                 <Link
                     underline="hover"
@@ -48,6 +49,7 @@ export default function Home() {
                 </Link>
             </Breadcrumbs>
         </Grid>
+        <Grid item xs={show ? 1 : 1}></Grid>
     </Grid>
 )
 
