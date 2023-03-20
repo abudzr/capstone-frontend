@@ -1,10 +1,4 @@
 /** Libs */
-<<<<<<< Updated upstream
-import React , {useState} from 'react';
-import {Breadcrumbs,Link, Grid, Typography, Divider, Select, MenuItem, TextField} from '@mui/material'
-import HomeIcon from '@mui/icons-material/Home';
-import { useSelector } from 'react-redux';
-=======
 import React , {useEffect, useState} from 'react';
 import {Breadcrumbs,Link, Grid, Typography, Divider, Select, MenuItem, Input} from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
@@ -12,7 +6,6 @@ import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
->>>>>>> Stashed changes
 /** Global Components */
 import {Button as CustomizeButton} from 'components';
 
@@ -20,16 +13,6 @@ import {Button as CustomizeButton} from 'components';
 
 /** Utils */
 import "../managementUser.css";
-<<<<<<< Updated upstream
-
-export default function CreateUser() {
-    const {show} = useSelector((state) => state.general);
-    const [data,setData] = useState({
-        requestType:'item',
-        desciption:''
-    })
-    // Use Effect
-=======
 import { serviceAddDepartment, serviceAddRole, serviceAddUser, serviceDepartments, serviceRoles } from 'services/users';
 
 export default function CreateUser() {
@@ -146,7 +129,6 @@ export default function CreateUser() {
         }
         isGetDataSet(true);
     }, [roles, departments]);
->>>>>>> Stashed changes
 
     return (
     <Grid
@@ -173,13 +155,9 @@ export default function CreateUser() {
                     underline="hover"
                     sx={{ display: 'flex', alignItems: 'center' }}
                     color="inherit"
-<<<<<<< Updated upstream
-                    href="/management-users"
-=======
                     onClick = {
                         () => navigate("/management-users")
                     }
->>>>>>> Stashed changes
                 >
                     Management Users
                 </Link>
@@ -214,10 +192,7 @@ export default function CreateUser() {
                             title="Simpan"
                             btn="button-create"
                             color="blue"
-<<<<<<< Updated upstream
-=======
                             onClick={saveHandler}
->>>>>>> Stashed changes
                         />
                     </Grid>
                 </Grid>
@@ -230,41 +205,6 @@ export default function CreateUser() {
                 container  
                 direction="row"
             >
-<<<<<<< Updated upstream
-                <Grid item xs={4}>
-                    Request Type
-                </Grid>
-                <Grid item xs={8}>
-                <Select
-                    variant="outlined"
-                    sx={{
-                    width: "512px",
-                    height: 40,
-                    }}
-                    value={data.requestType}
-                    onChange={(e) => setData({...data, requestType:e.target.value})}
-                >
-                    <MenuItem value="item">Item</MenuItem>
-                    <MenuItem value="service">Service</MenuItem>
-                </Select>
-                </Grid>
-                <Grid item xs={4} mt={4}>
-                    Keterangan
-                </Grid>
-                <Grid item xs={8} mt={4}>
-                <TextField
-                    sx={{
-                        width: "512px",
-                        height: "139px",
-                        }}
-                        multiline
-                        rows={4}
-                        maxRows={8}
-                    id="outlined-basic" variant="outlined" placeholder='Isi Disini'
-                    value={data.desciption}
-                    onChange={(e) => setData({...data, desciption:e.target.value})}
-                />
-=======
                 {/* username */}
                 <Grid item xs={4}>
                     Username
@@ -405,7 +345,6 @@ export default function CreateUser() {
                             ))
                         }
                     </Select>
->>>>>>> Stashed changes
                 </Grid>
             </Grid>
            
