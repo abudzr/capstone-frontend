@@ -1,10 +1,14 @@
 /** Libs */
-import React , {} from 'react';
+import React , { useEffect, useState } from 'react';
 import {Breadcrumbs,Link, Grid, Typography, Box} from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-// import {useNavigate} from 'react-router-dom'
+import Cookies from "js-cookie";
+import moment from "moment";
+import { setIslogin } from 'store/reducer-auth';
+import { useDispatch } from "react-redux";
+import {useNavigate} from 'react-router-dom'
 
 /** Global Components */
 import {Button as CustomizeButton} from 'components';
@@ -14,39 +18,44 @@ import {Button as CustomizeButton} from 'components';
 /** Utils */
 import {columnsTableUser} from 'contants/managementUserTable'
 import "../managementUser.css";
+import { serviceUsers } from 'services/users';
 
 export default function ListUser() {
-    // const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {show} = useSelector((state) => state.general);
+    const [listData, setListData] = useState([]);
+    const token = Cookies.get("token");
 
-    const listData = [
-        {
-            id:1,
-            no:1,
-            department:'IT',
-            date:"29 Januari 2022",
-            email:"abudzar@gmail.com",
-            status:"Active",
-        },
-        {
-            id:2,
-            no:2,
-            department:'Wirehouse',
-            date:"31 Maret 2022",
-            email:"irfan@gmail.com",
-            status:"New",
-        },
-        {
-            id:3,
-            no:3,
-            department:'Finance',
-            date:"31 Maret 2022",
-            email:"arif@gmail.com",
-            status:"Inactive",
-        }
-    ]
+    const getUser = async () => {
+        const data = await serviceUsers({
+            token: token
+        });
+        return data;
+    }
+    
     // Use Effect
-
+    useEffect(() => {
+        getUser().then( users => {
+            if (users.message === 'Request failed with status code 401') {
+                dispatch(setIslogin(false));
+                navigate('/login');
+            }
+            const newData = users.data.map((val, idx) => {
+                return {
+                    id: val.uuid,
+                    no: idx + 1,
+                    username: val.username,
+                    department: val.departments[0].code,
+                    email: val.email,
+                    status: val.active ? 'Active' : 'Inactive',
+                    date: moment(val.createdon).format('DD-MM-YYYY H:mm:ss'),
+                    role: val.roles[0].name,
+                };
+            });
+            setListData(newData);
+        });
+    })
     return (
     <Grid
         sx={{ flexGrow: 1 }}  
@@ -93,7 +102,7 @@ export default function ListUser() {
                         title="Create"
                         btn="button-create"
                         color="blue"
-                        // onClick={()=>navigate("/request/create")}
+                        onClick={()=>navigate("/management-users/create")}
                     />
                 </Grid>
             </Grid>

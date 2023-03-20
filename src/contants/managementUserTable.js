@@ -13,7 +13,15 @@ export const columnsTableUser = [
       headerName: "Department",
       headerClassName: "super-app-theme--header",
       editable: false,
-      width: 200,
+      width: 100,
+    },
+    {
+      field: "username",
+      headerName: "Username",
+      headerClassName: "super-app-theme--header",
+      editable: false,
+      flex:1,
+      minWidth: 60,
     },
     {
       field: "email",
@@ -24,11 +32,19 @@ export const columnsTableUser = [
       minWidth: 60,
     },
     {
+      field: "role",
+      headerName: "Role",
+      headerClassName: "super-app-theme--header",
+      editable: false,
+      flex:1,
+      minWidth: 60,
+    },
+    {
       field: "date",
       headerName: "Date",
       headerClassName: "super-app-theme--header",
       editable: false,
-      width: 240,
+      width: 200,
     },
     {
       field: "status",
@@ -58,8 +74,8 @@ export const columnsTableUser = [
                     <Grid item xs={6} >
                     <Link
                         underline="hover"
-                        className="detail-request"
-                        href={`/request/${params.id}}`}
+                        className="detail-user"
+                        href={`management-users/detail/${params.id}}`}
                     >
                         Detail
                     </Link>
