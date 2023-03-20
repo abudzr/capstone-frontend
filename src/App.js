@@ -7,7 +7,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 /** Components */
 import { Sidebar } from 'components';
 /** Pages */
-import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval, ListUser, CreateUser} from './pages'
+import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval, ListUser, CreateUser, DetailUser} from './pages'
 
 /** Assets */
 import './App.css';
@@ -48,6 +48,7 @@ export default function App() {
             {/* Management User */}
             <Route path='/management-users' element={<ListUser />} />
             <Route path='/management-users/create' element={<CreateUser />} />
+            <Route path='/management-users/detail/:id' element={<DetailUser />} />
 
 
             <Route path='/not-found' element={<NotFound />} />

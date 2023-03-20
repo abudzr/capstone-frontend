@@ -17,6 +17,7 @@ export { default as DetailApproval } from './approval/detailApproval';
 // management-user
 export { default as ListUser } from './managementUser/listUser';
 export { default as CreateUser } from './managementUser/createUser';
+export { default as DetailUser } from './managementUser/detailUser';
 
 
 
