@@ -1,4 +1,6 @@
 import { Grid,Link,MenuItem,Select, TextField } from "@mui/material";
+import { setValueRequest } from "store/reducer-request";
+
 
 export const columnsTableRequest = [
     {
@@ -117,12 +119,8 @@ export const columnsTableRequest = [
     },
 ];
 
-// item table
-const inputProps = {
-  step: 300,
-};
 
-export const itemsRequest = () => ([
+export const itemsRequest = (option,dispatch) => ([
   {
     field: "no",
     headerName: "No",
@@ -131,7 +129,7 @@ export const itemsRequest = () => ([
     width: 40,
   },
   {
-    field: "item",
+    field: "itemUuid",
     headerName: "Item",
     headerClassName: "super-app-theme--header",
     editable: false,
@@ -139,15 +137,20 @@ export const itemsRequest = () => ([
     renderCell: (params) => {
         return (
           <Select
+            name="itemUuid"
             variant="outlined"
             sx={{
             width: "100%",
             height: 40,
             }}
-            onChange={(e) => {}}
+            onChange={(e) => dispatch(setValueRequest({
+              value : e.target,
+              id:params.id
+            })) }
         >
-            <MenuItem value="laptop">Laptop</MenuItem>
-            <MenuItem value="printer">Printer</MenuItem>
+          {option && option.map((item)=>{
+            return <MenuItem value={item.uuid}>{item.name}</MenuItem>
+          })}
         </Select>
         )
     }
@@ -161,9 +164,12 @@ export const itemsRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
+          name="qty"
           variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
+          onChange={(e) => dispatch(setValueRequest({
+            value : e.target,
+            id:params.id
+          })) }
           size="small"
           type="number"
         />
@@ -179,9 +185,12 @@ export const itemsRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
+          name="price"
           variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
+          onChange={(e) => dispatch(setValueRequest({
+            value : e.target,
+            id:params.id
+          })) }
           size="small"
           type="number"
         />
@@ -189,7 +198,7 @@ export const itemsRequest = () => ([
     }
   },
   {
-    field: "description",
+    field: "desc",
     headerName: "Description",
     headerClassName: "super-app-theme--header",
     editable: false,
@@ -198,10 +207,13 @@ export const itemsRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
-          variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
-          size="small"
+        name="desc"
+        variant="outlined"
+        onChange={(e) => dispatch(setValueRequest({
+          value : e.target,
+          id:params.id
+        })) }
+        size="small"
         />
       )
     }
@@ -209,7 +221,7 @@ export const itemsRequest = () => ([
 ]);
 
 // service tabel
-export const serviceRequest = () => ([
+export const serviceRequest = (option, dispatch) => ([
   {
     field: "no",
     headerName: "No",
@@ -218,7 +230,7 @@ export const serviceRequest = () => ([
     width: 40,
   },
   {
-    field: "service",
+    field: "serviceUuid",
     headerName: "Service Name",
     headerClassName: "super-app-theme--header",
     editable: false,
@@ -226,14 +238,20 @@ export const serviceRequest = () => ([
     renderCell: (params) => {
         return (
           <Select
+            name="serviceUuid"
             variant="outlined"
             sx={{
             width: "100%",
             height: 40,
             }}
-            onChange={(e) => {}}
+            onChange={(e) => dispatch(setValueRequest({
+              value : e.target,
+              id:params.id
+            })) }
         >
-            <MenuItem value="jasa">Jasa</MenuItem>
+          {option && option.map((item)=>{
+            return <MenuItem value={item.uuid}>{item.name}</MenuItem>
+          })}
         </Select>
         )
     }
@@ -247,9 +265,12 @@ export const serviceRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
+          name="qty"
           variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
+          onChange={(e) => dispatch(setValueRequest({
+            value : e.target,
+            id:params.id
+          })) }
           size="small"
           type="number"
         />
@@ -265,9 +286,12 @@ export const serviceRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
+          name="price"
           variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
+          onChange={(e) => dispatch(setValueRequest({
+            value : e.target,
+            id:params.id
+          })) }
           size="small"
           type="number"
         />
@@ -275,7 +299,7 @@ export const serviceRequest = () => ([
     }
   },
   {
-    field: "description",
+    field: "desc",
     headerName: "Description",
     headerClassName: "super-app-theme--header",
     editable: false,
@@ -284,9 +308,12 @@ export const serviceRequest = () => ([
     renderCell: (params) => {
       return (
         <TextField
+          name="desc"
           variant="outlined"
-          onChange={(e) => {}}
-          inputProps={inputProps}
+          onChange={(e) => dispatch(setValueRequest({
+            value : e.target,
+            id:params.id
+          })) }
           size="small"
         />
       )

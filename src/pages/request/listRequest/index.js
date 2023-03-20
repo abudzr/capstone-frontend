@@ -23,34 +23,6 @@ export default function ListRequest() {
     const {show,department} = useSelector((state) => state.general);
     const {listData} = useSelector((state) => state.request);
 
-    // const listData = [
-    //     {
-    //         id:1,
-    //         no:1,
-    //         department:'IT',
-    //         date:"29 Januari 2022",
-    //         shortText:"Laptop",
-    //         result:"Rejected",
-    //     },
-    //     {
-    //         id:2,
-    //         no:2,
-    //         department:'Wirehouse',
-    //         date:"31 Maret 2022",
-    //         shortText:"Laptop",
-    //         result:"Pending",
-    //     },
-    //     {
-    //         id:3,
-    //         no:3,
-    //         department:'Finance',
-    //         date:"31 Maret 2022",
-    //         shortText:"Laptop",
-    //         result:"Approved",
-    //     }
-    // ]
-    // Use Effect
-
     const fetchData = async (state) => {
         const response = await serviceListRequest({
             departmentid:department[0].id,
@@ -59,7 +31,8 @@ export default function ListRequest() {
     }
 
     useEffect(() => {
-        fetchData()
+        fetchData();
+    // eslint-disable-next-line
     }, [])
     
 
