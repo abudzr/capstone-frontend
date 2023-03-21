@@ -1,10 +1,10 @@
 /** Libs */
-import React , {} from 'react';
+import React , { useEffect, useState } from 'react';
 import {Breadcrumbs,Link, Grid, Typography, Box} from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-
+import { useNavigate} from "react-router-dom";
 /** Global Components */
 
 /** Assets */
@@ -12,39 +12,60 @@ import { DataGrid } from '@mui/x-data-grid';
 /** Utils */
 import {columnsTableApproval} from 'contants/approvalTable'
 import "../approval.css";
+import { listApprovalService } from 'services/approval';
 
 export default function ListApproval() {
+    const navigate = useNavigate()
     const {show} = useSelector((state) => state.general);
+    const [listData, setListData] = useState([])
 
-    const listData = [
-        {
-            id:1,
-            no:1,
-            department:'IT',
-            date:"29 Januari 2022",
-            type:"item",
-            shortText:"Pengajuan Laptop",
-            result:"Rejected",
-        },
-        {
-            id:2,
-            no:2,
-            department:'Wirehouse',
-            date:"31 Maret 2022",
-            type:"item",
-            shortText:"Pengajuan Printer",
-            result:"Pending",
-        },
-        {
-            id:3,
-            no:3,
-            department:'Finance',
-            date:"31 Maret 2022",
-            type:"service",
-            shortText:"Jasa A",
-            result:"Approved",
+    const fetchData = async (state) => {
+        const response = await listApprovalService();
+        if (response?.data) {
+            const dataTemp = response?.data;
+            dataTemp.forEach((v,i)=> {
+                v.no = i+1
+            });
+            setListData(dataTemp)
         }
-    ]
+    }
+
+    useEffect(() => {
+        fetchData();
+    // eslint-disable-next-line
+    }, [])
+
+
+
+    // const listData = [
+    //     {
+    //         id:1,
+    //         no:1,
+    //         department:'IT',
+    //         date:"29 Januari 2022",
+    //         type:"item",
+    //         shortText:"Pengajuan Laptop",
+    //         result:"Rejected",
+    //     },
+    //     {
+    //         id:2,
+    //         no:2,
+    //         department:'Wirehouse',
+    //         date:"31 Maret 2022",
+    //         type:"item",
+    //         shortText:"Pengajuan Printer",
+    //         result:"Pending",
+    //     },
+    //     {
+    //         id:3,
+    //         no:3,
+    //         department:'Finance',
+    //         date:"31 Maret 2022",
+    //         type:"service",
+    //         shortText:"Jasa A",
+    //         result:"Approved",
+    //     }
+    // ]
     // Use Effect
 
     return (
@@ -120,7 +141,7 @@ export default function ListApproval() {
                         borderRadius: "12px",
                       }}
                     rows={listData}
-                    columns={columnsTableApproval}
+                    columns={columnsTableApproval(navigate)}
                     initialState={{
                         pagination: {
                           paginationModel: {

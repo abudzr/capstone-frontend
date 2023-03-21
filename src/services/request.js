@@ -29,3 +29,14 @@ export const addRequest = async (data) => {
         token :true
     });
 };
+
+export const getDetailReqByUuid = async (uuid) => {
+    
+    const url = `v1/api/${CURRENT_API}/${uuid}`;
+
+    return callAPI({
+        url,
+        method: 'GET',
+        token :true
+    });
+};

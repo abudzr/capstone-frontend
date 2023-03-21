@@ -13,3 +13,19 @@ export const addApproval = async (data) => {
         token :true
     });
 };
+
+export const listApprovalService = async (props) => {
+    let params = {};
+    if (props?.departmentuuid) {
+        params.departmentuuid =  props?.departmentuuid;
+    }
+
+    const url = `api/v1/${CURRENT_API}`;
+
+    return callAPI({
+        url,
+        method: 'GET',
+        params,
+        token :true
+    });
+};

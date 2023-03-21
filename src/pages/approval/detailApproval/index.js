@@ -1,5 +1,5 @@
 /** Libs */
-import React , {} from 'react';
+import React , { useEffect } from 'react';
 import {Breadcrumbs,Link, Grid, Typography, Box, Divider, TextField} from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import { useSelector } from 'react-redux';
@@ -13,8 +13,13 @@ import {Button as CustomizeButton} from 'components';
 /** Utils */
 import {itemsApproval, serviceApproval} from 'contants/approvalTable'
 import "../approval.css";
+import { useParams } from 'react-router-dom';
+import { getDetailReqByUuid } from 'services/request';
 
 export default function DetailApproval() {
+    let { uuid } = useParams();
+    console.log(uuid);
+
     const {show} = useSelector((state) => state.general);
     const data = {
         department:"It",
@@ -49,6 +54,25 @@ export default function DetailApproval() {
         }
     ]
     // Use Effect
+
+    const fetchData = async (id) => {
+        const response = await getDetailReqByUuid(id);
+        if (response?.data) {
+            const dataTemp = response?.data;
+            dataTemp.forEach((v,i)=> {
+                v.no = i+1
+            });
+            console.log(dataTemp,"dadada");
+            // setListData(dataTemp)
+        }
+    }
+
+    useEffect(() => {
+      if(uuid){
+        fetchData(uuid)
+      }
+    }, [uuid])
+    
 
     return (
     <Grid
