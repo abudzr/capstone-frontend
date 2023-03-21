@@ -48,3 +48,14 @@ export const getDetailReqByUuid = async (uuid) => {
         token :true
     });
 };
+
+export const getSingleRequest = async (props) => {
+
+    const url = `v1/api/${CURRENT_API}/${props.id}`;
+
+    return callAPI({
+        url,
+        method: 'GET',
+        token: true
+    });
+};

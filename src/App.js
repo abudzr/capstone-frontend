@@ -7,7 +7,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 /** Components */
 import { Sidebar } from 'components';
 /** Pages */
-import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval, ListUser, CreateUser, DetailUser} from './pages'
+import {Login, NotFound,Dashboard, Request, CreateRequest, Approval,DetailApproval, ListUser, CreateUser, DetailUser, DetailRequest} from './pages'
 
 /** Assets */
 import './App.css';
@@ -39,7 +39,7 @@ export default function App() {
             {/* request path */}
             <Route path='/request' element={<Request />} />
             <Route path='/request/create' element={<CreateRequest />} />
-            <Route path='/request/:id' element={<Request />} />
+            <Route path='/request/detail/:id' element={<DetailRequest />} />
 
             {/* approval path */}
             <Route path='/approval' element={<Approval />} />
