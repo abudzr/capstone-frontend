@@ -1,5 +1,6 @@
-import { Grid,Link,MenuItem,Select, TextField } from "@mui/material";
+import { Grid,MenuItem,Select, TextField } from "@mui/material";
 import { setValueRequest } from "store/reducer-request";
+import { Link } from "react-router-dom";
 
 
 export const columnsTableRequest = [
@@ -82,7 +83,7 @@ export const columnsTableRequest = [
                     <Link
                         underline="hover"
                         className="detail-request"
-                        href={`/request/${params.id}}`}
+                        to={`detail/${params.id}`}
                     >
                         Detail
                     </Link>
@@ -107,7 +108,7 @@ export const columnsTableRequest = [
                     <Link
                         underline="hover"
                         className="detail-request"
-                        href={`/request/${params.id}}`}
+                        to={`detail/${params.id}`}
                     >
                         Detail
                     </Link>
