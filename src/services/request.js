@@ -7,6 +7,14 @@ export const serviceListRequest = async (props) => {
     if (props?.departmentid) {
         params.departmentid =  props?.departmentid;
     }
+
+    if (props?.approvalfncid){
+        params.approvalfncid = props?.approvalfncid
+    }
+
+    if (props?.approvalheadid){
+        params.approvalheadid = props?.approvalheadid
+    }
     
     const url = `v1/api/${CURRENT_API}`;
 
