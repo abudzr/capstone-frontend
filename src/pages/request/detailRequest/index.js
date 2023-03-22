@@ -7,7 +7,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
 /** Global Components */
-import {Button as CustomizeButton} from 'components';
 
 /** Assets */
 
@@ -32,8 +31,6 @@ export default function CreateRequest() {
     const [optionServicetype,setListServiceType] = useState([])
     const [optionDdlItem,setOptionDdlItem] = useState([])
 
-    const [countItem,setCountItem] = useState(0)
-    const [itemSelection, setItemSelectionModel] = React.useState([]);
     const [itemList, itemListSet] = useState([]);
 
     const fetchData = async () => {
@@ -41,27 +38,6 @@ export default function CreateRequest() {
         if(response?.data){
             setListServiceType(response?.data)
         }
-    }
-
-    const handleChangeHeader = async (e) => {
-        const dataTemp = dataHeader;
-        dataTemp[e.name] = e.value;
-        setDataHeader(dataTemp);
-
-        if(e.name === 'requestType'){
-            const findRequestType = optionServicetype.find((item)=>item.uuid === e.value)
-            setRequestType(findRequestType?.type)
-
-            // for ddl items table
-            if (findRequestType?.type === "Item") {
-                const getOptionsItem = await listOptionItem();
-                setOptionDdlItem(getOptionsItem)
-            }else{
-                const getOptionSerivice = await listOptionService();
-                setOptionDdlItem(getOptionSerivice)
-            }
-        }
-        
     }
 
     const handleShowItem = (details, type) => {
@@ -81,7 +57,7 @@ export default function CreateRequest() {
                 const dataTemp = {
                         id: idx + 1,
                         no: idx + 1,
-                        itemUuid:item.service.uuid,
+                        serviceUuid:item.service.uuid,
                         qty: item.qty,
                         price: item.price,
                         desc: item.desc
@@ -98,12 +74,28 @@ export default function CreateRequest() {
         });
         return response;
     }
-    // Use Effect
+
+    const getDataOption = async (type) => {
+            // for ddl items table
+            if (type === "Item") {
+                const getOptionsItem = await listOptionItem();
+                setOptionDdlItem(getOptionsItem)
+            }else{
+                const getOptionSerivice = await listOptionService();
+                setOptionDdlItem(getOptionSerivice)
+            }
+    }
+
     useEffect(() => {
         fetchData();
+    }, [])
+
+    // Use Effect
+    useEffect(() => {
         itemListSet([]);
         getData().then((data) => {
             setRequestType(data.type.type);
+            getDataOption(data.type.type)
             setDataHeader({
                 'description': data.desc,
                 'requestType': data.type.uuid
@@ -111,6 +103,8 @@ export default function CreateRequest() {
             handleShowItem(data.details, data.type.type);
         });
     }, []);
+
+
     
     return (
     <Grid
@@ -179,8 +173,8 @@ export default function CreateRequest() {
                         width: "512px",
                         height: 40,
                     }}
+                    disabled
                     value={dataHeader.requestType}
-                    onChange={(e) =>  handleChangeHeader(e.target)}
                 >
                    {optionServicetype && optionServicetype.map((item)=>{
                         return <MenuItem key={item.uuid} value={item.uuid}>{item.type}</MenuItem>
@@ -202,7 +196,7 @@ export default function CreateRequest() {
                         // maxRows={8}
                     id="outlined-basic" variant="outlined" placeholder='Isi Disini'
                     value={dataHeader.description}
-                    onChange={(e) => setDataHeader({...dataHeader, description:e.target.value})}
+                    disabled
                 />
                 </Grid>
             </Grid>
@@ -211,7 +205,7 @@ export default function CreateRequest() {
 
             <Box 
                 sx={{ 
-                    height: 350, width: '700px', marginTop:"20px", marginBottom:"20px",
+                    height: 350, width: '750px', marginTop:"20px", marginBottom:"20px",
                     "& .super-app-theme--header": {
                         backgroundColor: "#EAECF0",
                         color: "#344054",

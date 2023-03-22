@@ -71,7 +71,7 @@ export const columnsTableRequest = [
                     spacing={2} 
                     alignItems="center"
                 >
-                    <Grid item xs={6} >
+                    <Grid item xs={8} >
                         <div className={
                             result?.status === "APPROVED" ? "info-approved" : 
                             result?.status === "REJECTED" ? "info-rejected" :"info-pending"} 
@@ -79,7 +79,7 @@ export const columnsTableRequest = [
                         {result?.status}
                         </div>
                         </Grid>
-                    <Grid item xs={6} >
+                    <Grid item xs={4} >
                     <Link
                         underline="hover"
                         className="detail-request"
@@ -98,13 +98,13 @@ export const columnsTableRequest = [
                     spacing={2} 
                     alignItems="center"
                 >
-                    <Grid item xs={6} >
+                    <Grid item xs={8} >
                         <div className={"info-pending"} 
                         >
                         PENDING
                         </div>
                         </Grid>
-                    <Grid item xs={6} >
+                    <Grid item xs={4} >
                     <Link
                         underline="hover"
                         className="detail-request"
@@ -144,6 +144,7 @@ export const itemsRequest = (option,dispatch) => ([
             width: "100%",
             height: 40,
             }}
+            value={params.value}
             onChange={(e) => dispatch(setValueRequest({
               value : e.target,
               id:params.id
@@ -171,6 +172,7 @@ export const itemsRequest = (option,dispatch) => ([
             value : e.target,
             id:params.id
           })) }
+          value={params.value}
           size="small"
           type="number"
         />
@@ -182,7 +184,7 @@ export const itemsRequest = (option,dispatch) => ([
     headerName: "Price",
     headerClassName: "super-app-theme--header",
     editable: false,
-    minWidth: 60,
+    minWidth: 120,
     renderCell: (params) => {
       return (
         <TextField
@@ -192,6 +194,7 @@ export const itemsRequest = (option,dispatch) => ([
             value : e.target,
             id:params.id
           })) }
+          value={params.value}
           size="small"
           type="number"
         />
@@ -214,6 +217,7 @@ export const itemsRequest = (option,dispatch) => ([
           value : e.target,
           id:params.id
         })) }
+        value={params.value}
         size="small"
         />
       )
@@ -245,6 +249,7 @@ export const serviceRequest = (option, dispatch) => ([
             width: "100%",
             height: 40,
             }}
+            value={params.value}
             onChange={(e) => dispatch(setValueRequest({
               value : e.target,
               id:params.id
@@ -272,6 +277,7 @@ export const serviceRequest = (option, dispatch) => ([
             value : e.target,
             id:params.id
           })) }
+          value={params.value}
           size="small"
           type="number"
         />
@@ -283,7 +289,7 @@ export const serviceRequest = (option, dispatch) => ([
     headerName: "Price",
     headerClassName: "super-app-theme--header",
     editable: false,
-    minWidth: 60,
+    minWidth: 120,
     renderCell: (params) => {
       return (
         <TextField
@@ -293,6 +299,7 @@ export const serviceRequest = (option, dispatch) => ([
             value : e.target,
             id:params.id
           })) }
+          value={params.value}
           size="small"
           type="number"
         />
@@ -315,6 +322,7 @@ export const serviceRequest = (option, dispatch) => ([
             value : e.target,
             id:params.id
           })) }
+          value={params.value}
           size="small"
         />
       )
