@@ -43,7 +43,7 @@ export default function App() {
 
             {/* approval path */}
             <Route path='/approval' element={<Approval />} />
-            <Route path='/approval/:uuid' element={<DetailApproval />} />
+            <Route path='/approval/:id' element={<DetailApproval />} />
 
             {/* Management User */}
             <Route path='/management-users' element={<ListUser />} />

@@ -29,3 +29,15 @@ export const listApprovalService = async (props) => {
         token :true
     });
 };
+
+export const updateApproval = async (props) => {
+    const data = props?.data
+    const url = `api/v1/${CURRENT_API}/${props?.uuid}`;
+
+    return callAPI({
+        url,
+        method: 'PUT',
+        data,
+        token :true
+    });
+};
