@@ -1,78 +1,118 @@
 /** Libs */
-import React , { useEffect } from 'react';
+import React , { useEffect, useState } from 'react';
 import {Breadcrumbs,Link, Grid, Typography, Box, Divider, TextField} from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
+import { useParams } from 'react-router-dom';
 
-/** Global Components */
 import {Button as CustomizeButton} from 'components';
+import RejectedDialog from '../component/rejectedDialog'
+
 
 /** Assets */
 
 /** Utils */
 import {itemsApproval, serviceApproval} from 'contants/approvalTable'
+import { serviceListRequest } from 'services/request';
 import "../approval.css";
-import { useParams } from 'react-router-dom';
-import { getDetailReqByUuid } from 'services/request';
+import Swal from 'sweetalert2';
+
 
 export default function DetailApproval() {
-    let { uuid } = useParams();
-    console.log(uuid);
+    let { id } = useParams();
 
     const {show} = useSelector((state) => state.general);
-    const data = {
-        department:"It",
-        requestType:'item',
-        desciption:'Pengajuan Laptop'
+    const {listModule} = useSelector((state) => state.approval);
+
+    const [data, setData] = useState([])
+    const [itemList, setItemList] = useState([])
+
+    // dialog rejected
+    const [openModal, setOpenModal] = useState(false);
+    const [isConfirmed, setConfirmed] = useState(false);
+    const [description, setDescription] = useState("");
+
+
+
+    const handleApprove = (status) =>{
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to approve this request",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Approved'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Approved!',
+                'Request berhasil di approve.',
+                'success'
+              )
+            }
+          })
     }
 
-    const listData = [
-        {
-            id:1,
-            no:1,
-            item:'Laptop',
-            qty:1,
-            price:"1.500.000",
-            description:"Macbook",
-        },
-        {
-            id:2,
-            no:2,
-            item:'Laptop',
-            qty:1,
-            price:"1.500.000",
-            description:"Macbook",
-        },
-        {
-            id:3,
-            no:3,
-            item:'Laptop',
-            qty:1,
-            price:"1.500.000",
-            description:"Macbook",
-        }
-    ]
+    const handleReject = () =>{
+        console.log(description,"test");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to reject this request",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Rejected'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Rejected!',
+                'Request berhasil di reject.',
+                'success'
+              )
+            }
+          })
+    }
+
+
     // Use Effect
 
     const fetchData = async (id) => {
-        const response = await getDetailReqByUuid(id);
-        if (response?.data) {
-            const dataTemp = response?.data;
-            dataTemp.forEach((v,i)=> {
+        const paramsTemp = {}
+        if (listModule?.name === "ApprovalHeadDept") {
+            paramsTemp.approvalheadid = id
+        }
+        if (listModule?.name === "ApprovalHeadFNC"){
+            paramsTemp.approvalfncid = id
+        }
+        const response = await serviceListRequest(paramsTemp);
+        if (response) {
+            const detailsTemp = response[0].details
+
+            detailsTemp.forEach((v,i)=> {
+                v.id = i+1
                 v.no = i+1
             });
-            console.log(dataTemp,"dadada");
-            // setListData(dataTemp)
+
+            setData(response[0])
+            setItemList(detailsTemp)
+
         }
     }
 
     useEffect(() => {
-      if(uuid){
-        fetchData(uuid)
+      if(id){
+        fetchData(id)
       }
-    }, [uuid])
+    }, [id])
     
+    useEffect(() => {
+        if(isConfirmed){
+            handleReject()
+        }
+    },[isConfirmed])
 
     return (
     <Grid
@@ -133,12 +173,14 @@ export default function DetailApproval() {
                         <CustomizeButton
                             title="Reject"
                             btn="button-reject"
+                            onClick={()=>setOpenModal(true)}
                         />
                     </Grid>
                     <Grid>
                         <CustomizeButton
                             title="Approve"
                             btn="button-approve"
+                            onClick={()=>handleApprove()}
                         />
                     </Grid>
                 </Grid>
@@ -161,7 +203,7 @@ export default function DetailApproval() {
                             height: 40,
                             }}
                         id="outlined-basic" variant="outlined" 
-                        value={data.department}
+                        value={data?.department?.code}
                         disabled
                     />
                 </Grid>
@@ -175,7 +217,7 @@ export default function DetailApproval() {
                         height: 40,
                         }}
                     id="outlined-basic" variant="outlined" 
-                    value={data.requestType}
+                    value={data?.type?.type}
                     disabled
                 />
                 </Grid>
@@ -192,7 +234,7 @@ export default function DetailApproval() {
                         rows={4}
                         maxRows={8}
                     id="outlined-basic" variant="outlined" 
-                    value={data.desciption}
+                    value={data?.desc}
                     disabled
                 />
                 </Grid>
@@ -225,8 +267,8 @@ export default function DetailApproval() {
                         },
                         borderRadius: "12px",
                       }}
-                    rows={listData}
-                    columns={data.requestType === "item" ? itemsApproval() : serviceApproval()}
+                    rows={itemList}
+                    columns={data?.type?.type === "Item" ? itemsApproval() : serviceApproval()}
                     initialState={{
                         pagination: {
                           paginationModel: {
@@ -237,6 +279,12 @@ export default function DetailApproval() {
                     disableRowSelectionOnClick
                 />
                 </Box>
+            <RejectedDialog
+                isModal={openModal} 
+                onClose={setOpenModal}
+                onConfirm={setConfirmed}
+                onDescription={setDescription}
+            />
         </Grid>
         <Grid item xs={show ? 1 : 1}></Grid>
     </Grid>
