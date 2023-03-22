@@ -1,6 +1,7 @@
 import { Grid, Typography} from "@mui/material";
+import { setListModule } from "store/reducer-approval";
 
-export const columnsTableApproval = (navigate) => ([
+export const columnsTableApproval = (navigate,dispatch) => ([
   {
     field: "no",
     headerName: "No",
@@ -66,7 +67,10 @@ export const columnsTableApproval = (navigate) => ([
                       </div>
                       </Grid>
                   <Grid item xs={6} >
-                    <Typography className="detail-request" onClick={(e)=>navigate(`/approval/${params.row.uuid}`)}>Detail</Typography>
+                    <Typography className="detail-request" onClick={(e)=>{
+                      navigate(`/approval/${params.id}`)
+                      dispatch(setListModule(params.row.module))
+                    }}>Detail</Typography>
                   {/* <Link
                       underline="hover"
                       className="detail-request"
@@ -102,6 +106,9 @@ export const itemsApproval = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     width: 200,
+    renderCell: (params) => {
+      return params.row.item.name
+    }
   },
   {
     field: "qty",
@@ -118,7 +125,7 @@ export const itemsApproval = () => ([
     minWidth: 60,
   },
   {
-    field: "description",
+    field: "desc",
     headerName: "Description",
     headerClassName: "super-app-theme--header",
     editable: false,
@@ -142,6 +149,9 @@ export const serviceApproval = () => ([
     headerClassName: "super-app-theme--header",
     editable: false,
     width: 200,
+    renderCell: (params) => {
+      return params.row.service.name
+    }
   },
   {
     field: "qty",
@@ -158,7 +168,7 @@ export const serviceApproval = () => ([
     minWidth: 60,
   },
   {
-    field: "description",
+    field: "desc",
     headerName: "Description",
     headerClassName: "super-app-theme--header",
     editable: false,
