@@ -4,7 +4,7 @@ import {Breadcrumbs,Link, Grid, Typography, Box, Divider, TextField} from '@mui/
 import HomeIcon from '@mui/icons-material/Home';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {Button as CustomizeButton} from 'components';
 import RejectedDialog from '../component/rejectedDialog'
@@ -17,14 +17,14 @@ import {itemsApproval, serviceApproval} from 'contants/approvalTable'
 import { serviceListRequest } from 'services/request';
 import "../approval.css";
 import Swal from 'sweetalert2';
-
+import { updateApproval } from 'services/approval';
 
 export default function DetailApproval() {
+    const navigate = useNavigate()
     let { id } = useParams();
 
     const {show} = useSelector((state) => state.general);
-    const {listModule} = useSelector((state) => state.approval);
-
+    const {listModule, uuidAproval} = useSelector((state) => state.approval);
     const [data, setData] = useState([])
     const [itemList, setItemList] = useState([])
 
@@ -32,8 +32,6 @@ export default function DetailApproval() {
     const [openModal, setOpenModal] = useState(false);
     const [isConfirmed, setConfirmed] = useState(false);
     const [description, setDescription] = useState("");
-
-
 
     const handleApprove = (status) =>{
         Swal.fire({
@@ -44,13 +42,20 @@ export default function DetailApproval() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Approved'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Approved!',
-                'Request berhasil di approve.',
-                'success'
-              )
+                const response = await updateApproval({
+                    uuid:uuidAproval,
+                    data:{"status": "APPROVED"}
+                })
+                if (response){
+                    Swal.fire(
+                        'Approved!',
+                        'Request berhasil di approve.',
+                        'success'
+                    )
+                    navigate('/approval')
+                }
             }
           })
     }
@@ -105,13 +110,14 @@ export default function DetailApproval() {
     useEffect(() => {
       if(id){
         fetchData(id)
-      }
+      } // eslint-disable-next-line
     }, [id])
     
     useEffect(() => {
         if(isConfirmed){
             handleReject()
         }
+        // eslint-disable-next-line
     },[isConfirmed])
 
     return (

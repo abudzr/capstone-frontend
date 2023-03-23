@@ -1,5 +1,5 @@
 import { Grid, Typography} from "@mui/material";
-import { setListModule } from "store/reducer-approval";
+import { setListModule, setUuidApproval } from "store/reducer-approval";
 
 export const columnsTableApproval = (navigate,dispatch) => ([
   {
@@ -70,6 +70,7 @@ export const columnsTableApproval = (navigate,dispatch) => ([
                     <Typography className="detail-request" onClick={(e)=>{
                       navigate(`/approval/${params.id}`)
                       dispatch(setListModule(params.row.module))
+                      dispatch(setUuidApproval(params.row.uuid))
                     }}>Detail</Typography>
                   {/* <Link
                       underline="hover"
