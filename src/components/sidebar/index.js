@@ -11,10 +11,11 @@ import {
   MenuItem,
   Tooltip,
   Drawer,
-  Grid
+  Grid,
+  Menu
 } from "@mui/material";
 
-import {CustomizeDialog} from 'components'
+import {ChangePassword, CustomizeDialog} from 'components'
 
 // icon
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
@@ -86,13 +87,16 @@ const CustomDrawer = styled(Drawer, {
 
 function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const {listMenu} = useSelector((state) => state.general);
 
+  const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [isConfirmed, setConfirmed] = useState(false);
-
+  const [openDialog, openDialogInput] = useState(false);
+  
   const [menu, setMenu] = useState([]);
 
   
@@ -104,13 +108,67 @@ function Sidebar() {
   // const handleDrawerClose = () => {
   //   setOpen(false);
   // };
-  
-
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const openDialogChangePassword = ()=>{
+    openDialogInput(true)
+    setAnchorEl(null);
+  }
   const handleMenu = (thePath) => {
     navigate(thePath);
   };
 
-  const location = useLocation();
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const isMenuOpen = Boolean(anchorEl);
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      id={menuId}
+      keepMounted
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'center',
+        horizontal: 'left',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={()=>openDialogChangePassword()}>Change Password</MenuItem>
+      {!open && <Divider />}
+      {!open && 
+        <MenuItem
+          onClick={() => {
+            localStorage.clear()
+            const clearAllCookies = new Promise((resolve, reject) => {
+              resolve(clearAll());
+            });
+            clearAllCookies
+              .then(() => {
+                handleMenuClose();
+              })
+              .then(() => {
+                dispatch(setIslogin(false))
+                localStorage.clear()
+                navigate("/login");
+              })
+              .catch((er) => {
+                console.log(er);
+              });
+          }}
+        >
+          Logout
+        </MenuItem>
+      }
+    </Menu>
+  );
 
   const menuItems = [
     {
@@ -251,7 +309,7 @@ function Sidebar() {
                 <Grid item xs={8} >
                     <Grid container direction="row" alignItems="center">
                         <Grid item xs={6}>
-                            <AccountCircleIcon style={{fill: "#FDFDFD",fontSize:"48px"}}/>
+                            <AccountCircleIcon onClick={(e)=>handleProfileMenuOpen(e)} style={{fill: "#FDFDFD",fontSize:"48px"}}/>
                         </Grid>
                         <Grid style={{textAlign:"start"}}>
                             <Grid className="menu-info-title">Admin</Grid>
@@ -264,7 +322,7 @@ function Sidebar() {
                 </Grid>
             </Grid>
             :
-            <AccountCircleIcon style={{fill: "#FDFDFD",cursor:"pointer",marginTop:"20px"}}/>
+            <AccountCircleIcon onClick={(e)=>handleProfileMenuOpen(e)} style={{fill: "#FDFDFD",cursor:"pointer",marginTop:"20px"}}/>
             }
            
         </div>
@@ -277,6 +335,8 @@ function Sidebar() {
         onClose={setOpenModal}
         onConfirm={setConfirmed}
       />
+      <ChangePassword open={openDialog} close={()=>openDialogInput(false)} />
+    {renderMenu}
     </Box>
     );
 }
