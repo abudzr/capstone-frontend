@@ -3,6 +3,11 @@ import {Dialog,DialogTitle,DialogContent,DialogActions,DialogContentText,Grid, T
 
 import {Button as CustomizeButton} from 'components'
 import './changePassword.css'
+import { serviceInfoUser, serviceLogin } from 'services/auth'
+import Cookies from 'js-cookie'
+import Toastify from 'toastify-js'
+import "toastify-js/src/toastify.css"
+import { changePassword } from 'services/users'
 
 function ChangePassword(props) {
 
@@ -18,8 +23,60 @@ function ChangePassword(props) {
       };
 
     
-    const handleSubmit=()=>{
-        // logic here for change password
+    const handleSubmit= async ()=>{
+        const username = Cookies.get("username");
+
+        const response = await serviceLogin({
+            username: username,
+            password: data?.currentPassword,
+          });
+          if (response.httpStatus === "OK") {
+            let token = response?.data
+            if (token) {
+                const infoUser = await serviceInfoUser({
+                    token: token,
+                    username: username
+                  });
+                  if (infoUser?.data) {
+                    const updatePassword = await changePassword({
+                        uuid:infoUser?.data[0].uuid,
+                        data:{password:data.confirmPassword}
+                    })
+                    if (updatePassword) {
+                        setData({
+                            currentPassword:"",
+                            newPassword:"",
+                            confirmPassword:""
+                        })
+                        Toastify({
+                            text: updatePassword.message,
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            style: {
+                              background: "#027A48",
+                            },
+                          }).showToast();
+                    }
+                  }
+            }
+          }else{
+            Toastify({
+              text: "Current password is incorrect",
+              duration: 3000,
+              newWindow: true,
+              close: true,
+              gravity: "top",
+              position: "right",
+              stopOnFocus: true,
+              style: {
+                background: "#CB605A",
+              },
+            }).showToast();
+          }
         
     }
     

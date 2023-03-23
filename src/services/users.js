@@ -105,3 +105,16 @@ export const serviceAddUser = async (props) => {
         }
     });
 };
+
+
+export const changePassword = async (props) => {
+
+    const url = `v1/api/users/reset-password/${props.uuid}`;
+
+    return callAPI({
+        url,
+        method: 'PUT',
+        data: props.data,
+        token:true
+    });
+};

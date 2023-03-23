@@ -20,7 +20,8 @@ import '../auth.css'
 import { setIslogin } from "store/reducer-auth";
 import { useDispatch } from "react-redux";
 import { setListMenu } from "store/reducer-general";
-
+import Toastify from 'toastify-js'
+import "toastify-js/src/toastify.css"
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -47,12 +48,24 @@ export default function Login() {
         if (infoUser?.data) {
           dispatch(setListMenu(infoUser?.data))
           Cookies.set("token", token)
+          Cookies.set("username", values?.username)
           dispatch(setIslogin(true))
           navigate('/');
         }
       }
     }else{
-      console.log("username tidak terdaftar");
+      Toastify({
+        text: "Username tidak terdaftar",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#CB605A",
+        },
+      }).showToast();
     }
   }
 
