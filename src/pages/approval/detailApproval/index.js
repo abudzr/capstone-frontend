@@ -61,7 +61,6 @@ export default function DetailApproval() {
     }
 
     const handleReject = () =>{
-        console.log(description,"test");
         Swal.fire({
             title: 'Are you sure?',
             text: "you want to reject this request",
@@ -70,13 +69,23 @@ export default function DetailApproval() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Rejected'
-          }).then((result) => {
+          }).then(async(result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Rejected!',
-                'Request berhasil di reject.',
-                'success'
-              )
+                const response = await updateApproval({
+                    uuid:uuidAproval,
+                    data:{
+                        "status": "REJECTED",
+                        "explain": description
+                    }
+                })
+                if (response){
+                    Swal.fire(
+                        'Rejected!',
+                        'Request berhasil di reject.',
+                        'success'
+                    )
+                    navigate('/approval')
+                }
             }
           })
     }
