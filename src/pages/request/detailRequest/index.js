@@ -41,7 +41,7 @@ export default function CreateRequest() {
     }
 
     const handleShowItem = (details, type) => {
-        const allItem = [];
+        const allItem = []; // eslint-disable-next-line
         details.map((item, idx) => {
             if(type === "Item"){
                 const dataTemp = {
@@ -101,7 +101,7 @@ export default function CreateRequest() {
                 'requestType': data.type.uuid
             });
             handleShowItem(data.details, data.type.type);
-        });
+        });// eslint-disable-next-line
     }, []);
 
 
