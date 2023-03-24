@@ -1,0 +1,35 @@
+.chart-dashboard{
+    width: 100%;
+    padding: 30px;
+    background: #FFFFFF;
+box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.06);
+border-radius: 32px;
+}
+
+.chart-dashboard .title{
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 29px;
+color: #344054;
+}
+
+.chart-dashboard .subtitle{
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 38px;
+color: #737373;
+}
+
+.label-chart{
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 48px;
+line-height: 38px;
+
+color: #344054;
+}
