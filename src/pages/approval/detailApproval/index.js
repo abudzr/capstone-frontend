@@ -48,13 +48,16 @@ export default function DetailApproval() {
                     uuid:uuidAproval,
                     data:{"status": "APPROVED","explain": "Approved"}
                 })
-                await addApproval(
-                {
-                    "requestuuid": data.uuid,
-                    "modulename": "ApprovalHeadFNC",
-                    "explain": ""
+
+                if (data.approvalFnc == null) {
+                    await addApproval(
+                        {
+                            "requestuuid": data.uuid,
+                            "modulename": "ApprovalHeadFNC",
+                            "explain": ""
+                        }
+                    );
                 }
-            );
                 if (response){
                     Swal.fire(
                         'Approved!',
