@@ -17,7 +17,7 @@ import {itemsApproval, serviceApproval} from 'contants/approvalTable'
 import { serviceListRequest } from 'services/request';
 import "../approval.css";
 import Swal from 'sweetalert2';
-import { updateApproval } from 'services/approval';
+import { updateApproval, addApproval } from 'services/approval';
 
 export default function DetailApproval() {
     const navigate = useNavigate()
@@ -46,8 +46,15 @@ export default function DetailApproval() {
             if (result.isConfirmed) {
                 const response = await updateApproval({
                     uuid:uuidAproval,
-                    data:{"status": "APPROVED"}
+                    data:{"status": "APPROVED","explain": "Approved"}
                 })
+                await addApproval(
+                {
+                    "requestuuid": data.uuid,
+                    "modulename": "ApprovalHeadFNC",
+                    "explain": ""
+                }
+            );
                 if (response){
                     Swal.fire(
                         'Approved!',
@@ -109,7 +116,7 @@ export default function DetailApproval() {
                 v.id = i+1
                 v.no = i+1
             });
-
+            
             setData(response[0])
             setItemList(detailsTemp)
 
@@ -128,7 +135,7 @@ export default function DetailApproval() {
         }
         // eslint-disable-next-line
     },[isConfirmed])
-
+    
     return (
     <Grid
         sx={{ flexGrow: 1 }}  
